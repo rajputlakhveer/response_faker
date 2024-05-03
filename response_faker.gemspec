@@ -7,16 +7,16 @@ Gem::Specification.new do |spec|
   spec.version = ResponseFaker::VERSION
   spec.authors = ["Lakhveer Singh Rajput"]
   spec.email = ["rajputlakhveer@gmail.com"]
-  
-  spec.summary = "Pretender is a lightweight Ruby gem designed for developers to easily mock third-party responses during testing or development. With Pretender, users can simulate responses from external APIs, services, or servers, enabling efficient testing and development without relying on live external dependencies."
-  spec.description = "Pretender is a lightweight Ruby gem designed for developers to easily mock third-party responses during testing or development. With Pretender, users can simulate responses from external APIs, services, or servers, enabling efficient testing and development without relying on live external dependencies. Its simple and intuitive interface allows developers to configure custom responses, mimic various status codes, and handle dynamic data scenarios. Pretender enhances the development process by providing a flexible and reliable tool for mocking third-party interactions, ensuring smooth and effective testing of applications."
-  spec.homepage = "https://github.com/rajputlakhveer/pretender"
+
+  spec.summary = "Response Faker is a lightweight Ruby gem designed for developers to easily mock third-party responses during testing or development. With Response Faker, users can simulate responses from external APIs, services, or servers, enabling efficient testing and development without relying on live external dependencies."
+  spec.description = "Response Faker is a lightweight Ruby gem designed for developers to easily mock third-party responses during testing or development. With Response Faker, users can simulate responses from external APIs, services, or servers, enabling efficient testing and development without relying on live external dependencies. Its simple and intuitive interface allows developers to configure custom responses, mimic various status codes, and handle dynamic data scenarios. Response Faker enhances the development process by providing a flexible and reliable tool for mocking third-party interactions, ensuring smooth and effective testing of applications."
+  spec.homepage = "https://github.com/rajputlakhveer/response_faker"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.3.0"
   spec.metadata       = { "rubygems_mfa_required" => "false" }
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/rajputlakhveer/pretender"
+  spec.metadata["source_code_uri"] = "https://github.com/rajputlakhveer/response_faker"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
