@@ -1,30 +1,57 @@
 # frozen_string_literal: true
 
 require_relative "response_faker/version"
+require 'json'
+require 'listen'
 
 module ResponseFaker
   class Error < StandardError; end
-    
-  directory_path = "lib/response_faker/responses/"
 
-  # Iterate over each file in the directory
-  Dir.glob(File.join(directory_path, "*")).each do |file|
-    # Get the filename without extension
-    class_name = File.basename(file, ".*").split('_').map(&:capitalize).join
-    klass = Class.new do 
-      def self.load_responses(file)
-
+  class << self
+    def load_responses(file)
+      begin
         responses = JSON.parse(File.read(file))
-        responses.each do |key, value|
-          define_singleton_method(key) { value }
-        end
+      rescue JSON::ParserError => e
+        raise ResponseFaker::Error, "Invalid JSON format in file: #{file}. Error: #{e.message}"
+      end
+
+      class_name = File.basename(file, ".*").split('_').map(&:capitalize).join
+      klass = const_set(class_name, Class.new)
+
+      responses.each do |key, value|
+        klass.define_singleton_method(key) { value }
       end
     end
 
-    # Load responses into the dynamically created class
-    klass.load_responses(file)
+    def reload_responses
+      directory_path = "./lib/response_faker/responses/"
 
-    # Define the class within the module
-    const_set(class_name, klass)
+      # Iterate over each file in the directory
+      Dir.glob(File.join(directory_path, "*")).each do |file|
+        begin
+          load_responses(file)
+          puts "Loaded: #{file}"
+        rescue ResponseFaker::Error => e
+          puts "Skipping file due to error: #{e.message}"
+        end
+      end
+    end
   end
+
+  # Initial load of responses
+  reload_responses
+
+  # Watch for file changes in the responses directory
+  listener = Listen.to('./lib/response_faker/responses/') do |modified, added, _removed|
+    (modified + added).each do |file|
+      begin
+        load_responses(file)
+        puts "Reloaded: #{file}"
+      rescue ResponseFaker::Error => e
+        puts "Error reloading #{file}: #{e.message}"
+      end
+    end
+  end
+
+  listener.start
 end
